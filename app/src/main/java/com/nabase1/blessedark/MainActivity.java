@@ -7,6 +7,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -17,6 +18,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     private ActivityMainBinding mBinding;
     private String url = "https://www.blessedark.net/";
+    private String url2 = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     public void loadSite(){
         mBinding.progressBar.setVisibility(View.VISIBLE);
+        mBinding.webView.setVisibility(View.GONE);
         mBinding.webView.loadUrl(url);
         mBinding.webView.setWebViewClient(new WebViewClient(){
             @Override
@@ -47,6 +50,12 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
               //  super.onPageFinished(view, url);
                 mBinding.progressBar.setVisibility(View.GONE);
                 mBinding.webView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
             }
         });
     }
